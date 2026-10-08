@@ -1,0 +1,953 @@
+CREATE TABLE sport (
+    order_id VARCHAR(50),
+    order_date DATE,
+    order_time TIME,
+    customer_id VARCHAR(50),
+    customer_name VARCHAR(100),
+    gender VARCHAR(20),
+    age INT,
+    age_group VARCHAR(30),
+    city VARCHAR(100),
+    state VARCHAR(100),
+    membership_type VARCHAR(50),
+    customer_segment VARCHAR(50),
+    product_id VARCHAR(50),
+    product_name VARCHAR(150),
+    product_category VARCHAR(100),
+    brand VARCHAR(100),
+    sport_type VARCHAR(100),
+    quantity INT,
+    unit_price DECIMAL(12,2),
+    discount_percent DECIMAL(5,2),
+    discount_amount DECIMAL(12,2),
+    sales_amount DECIMAL(12,2),
+    final_amount DECIMAL(12,2),
+    cost_price DECIMAL(12,2),
+    profit DECIMAL(12,2),
+    store_id VARCHAR(50),
+    store_name VARCHAR(150),
+    sales_channel VARCHAR(50),
+    payment_method VARCHAR(50),
+    salesperson VARCHAR(100),
+    delivery_type VARCHAR(50),
+    delivery_days INT,
+    customer_rating DECIMAL(3,2),
+    return_status VARCHAR(30),
+    return_reason VARCHAR(200),
+    promotion_campaign VARCHAR(100),
+    quarter VARCHAR(10),
+    month VARCHAR(20),
+    year INT
+);
+
+Q1. Find all orders where gender = 'Male'.
+
+select *  from sport  
+where gender ='Male'
+
+Q2. Find orders where final amount is greater than 5000
+
+select * from sport 
+where final_amount > 5000
+
+Q3. Find customers with Premium membership
+
+select * from sport 
+where membership_type ='Premium'
+
+Q4. Find orders where return status is Returned
+
+select * from sport 
+where return_status ='Returned'
+
+Q5. Find products belonging to a particular sport type
+
+select* from sport 
+where sport_type ='Football'
+
+Q11. Find unique states
+
+select distinct state from sport 
+
+Q12. Find unique product categories
+
+select distinct product_category from sport 
+
+Q13. Find unique brands
+
+select distinct brand from sport 
+
+Q14. Find the 10 most expensive products by unit price
+
+select product_name,unit_price from sport 
+group by unit_price ,product_name order by unit_price desc 
+limit 10 
+
+
+Q15. Find 10 orders with the highest final amount
+
+select order_id , final_amount from sport 
+group by order_id ,final_amount
+order by final_amount desc
+
+
+Q16. Find 10 orders with the highest profit
+
+select order_id , profit from sport 
+group by order_id ,profit 
+order by profit desc 
+
+Q17. Display customers ordered by age from highest to lowest
+
+select customer_name , age from sport 
+group by customer_name , age 
+order by age desc
+
+
+Q18. Find the 5 products with the lowest unit price
+
+select product_name ,unit_price from sport 
+group by unit_price , product_name 
+order by unit_price desc 
+
+
+Q19. Find unique payment methods 
+
+select distinct payment_method from sport 
+
+
+Q20. Find the 10 highest-rated orders
+
+select order_id , customer_name,
+    product_name,
+    customer_rating from sport 
+order by customer_rating desc 
+limit 10
+
+Q21. Find the total number of orders
+
+select count(*) from sport 
+
+Q22. Find the total quantity sold
+
+select count(quantity) from sport
+
+Q23. Find total sales
+
+select sum(sales_amount)as amt from sport 
+
+Q24. Find total final amount
+
+select sum(final_amount)as final_amt from sport 
+
+Q25. Find total profit 
+ select sum(profit)as profit from sport 
+
+Q26. Find the average order value
+
+select avg(final_amount) from sport 
+
+Q27. Find the highest order amount
+
+select max(final_amount) from sport 
+
+Q28. Find the lowest order amount
+
+select min(final_amount) from sport 
+
+Q29. Find the average customer rating
+
+select avg(customer_rating) from sport 
+
+Q30. Find the total discount amount
+
+select sum(discount_amount) from sport 
+
+Q31. Find total sales by product category
+
+select product_category , sum(final_amount) from sport 
+group by product_category 
+
+Q32. Find total profit by product category
+
+select product_category , sum(profit) from sport 
+group by product_category 
+
+
+Q33. Find total sales by state 
+
+select state , sum(final_amount) from sport 
+group by state 
+
+Q34. Find total profit by state
+
+select state , sum(profit) from sport 
+group by state 
+order by sum(profit) desc
+
+Q35. Find total sales by brand 
+select brand , sum(final_amount) from sport 
+group by brand 
+order by sum(final_amount ) desc 
+
+Q36. Find total quantity sold by sport type
+
+select sport_type , count(*)as quantity from sport 
+group by sport_type
+order by quantity desc
+
+Q37. Find total sales by membership type
+
+select membership_type ,count(final_amount)as amt  from sport 
+group by membership_type 
+order by amt desc 
+
+Q38. Find total sales by customer segment
+
+select customer_segment , sum(final_amount)as amt  from sport 
+group by customer_segment 
+order by amt desc 
+
+Q39. Find total sales by sales channel
+
+select sales_channel , sum(final_amount)as amt  from sport 
+group by sales_channel 
+order by amt desc 
+
+
+Q40. Find total profit by store
+
+select store_name , sum(final_amount)as amt from sport 
+group by store_name 
+order by amt desc 
+
+
+
+Q41. Find product categories with total sales greater than 100,000
+
+
+select product_category , sum(final_amount)as amt from sport 
+group by product_category 
+having sum(sales_amount) > 100000 
+order by amt desc 
+
+
+Q42. Find states with total profit greater than 50,000
+
+
+select state , sum(profit)as amt from sport 
+group by state having  sum(profit) > 50000 
+order by amt desc 
+
+
+Q43. Find brands that have sold more than 1,000 units
+
+
+select brand , sum(quantity) from sport 
+group by brand 
+order by sum(quantity) desc 
+
+
+Q45. Categorize orders by final amount
+
+select order_id ,customer_name , final_amount ,
+      case when final_amount < 1000 then 'low'
+	       when final_amount between 1000 and 5000 then 'medium'
+		   when final_amount between 5000 and 10000 then 'high'
+		   when final_amount > 10000 then 'very high'
+		   else 'unknown'
+		   end as order_value_category 
+		   from sport 
+
+
+Q46. Find product categories with average profit greater than 1,000
+
+
+select product_category , avg(profit)as profit from sport 
+group by product_category having avg(profit) > 1000
+order by avg(profit) desc
+
+
+Q47. Find stores with more than 100 orders
+
+select store_name , count(order_id) from sport 
+group by store_name 
+having count(order_id) >100
+order by count(order_id) desc
+
+
+Q48. Find sales channels with average order value greater than 5,000
+
+select sales_channel , avg(final_amount)as orders from sport 
+group by sales_channel
+having avg(final_amount) > 5000 
+order by avg(final_amount) desc 
+
+
+Q51. Find total profit by quarter ,year ,month  
+
+select year , month, quarter , sum(profit)as profit from sport 
+group by year , month, quarter
+order by year , month, quarter
+limit 1
+
+
+Q54. Find the number of orders on each day
+
+select order_date , count(*)as orders from sport 
+group by order_date
+order by count(*) desc
+
+Q55. Find average delivery days by month
+
+select month , avg(delivery_days)as day from sport 
+group by month 
+order by day desc 
+
+Q56. Find monthly sales for each year
+
+select month , year , sum(sales_amount)as amt  from sport 
+group by month , year
+order by month , year
+
+
+Q57. Find the number of orders by quarter 
+
+select quarter , count(*)as orders from sport 
+group by quarter 
+order by orders desc 
+
+
+Q58. Find the year with the highest number of returned orders
+
+
+select year , count(*)as returned_sales from sport 
+where return_status ='Returned'
+group by year  
+order by returned_sales desc
+
+
+Q59. Find orders where return_reason is NULL 
+
+select order_id ,
+       customer_name,
+	   return_reason
+	   from sport 
+	   where return_reason 	IS NULL
+
+
+Q61. Replace NULL return reasons with 'No Return'
+
+select order_id,
+       return_status ,
+	   coalesce(return_reason,'no return')as return_reason
+	   from sport 
+
+
+Q62. Find orders where discount is greater than 20%
+
+select order_id ,
+       discount_percent
+	   from sport 
+	   where discount_percent > 20 
+
+
+Q63. Find orders where both discount and profit are greater than 1000
+
+select order_id ,
+       discount_amount,
+	   profit 
+	   from sport
+	   where discount_amount > 1000 and profit > 1000
+       
+
+Q64. Find customers whose age is between 25 and 40
+
+select customer_id ,
+       customer_name,
+	   age 
+	   from sport 
+	   where age between 25 and 40 
+
+
+Q65. Find orders where the payment method is Cash or UPI
+
+
+select order_id,
+       payment_method
+	   from sport
+	   where payment_method in ('Cash' , 'upi')
+	   
+Q66. Find products whose brand starts with 'A'
+
+
+select product_id,
+       product_name ,
+	   brand
+	   from sport 
+	   where brand like 'D%'
+
+
+Q67. Find customer names containing 'an'
+
+select customer_id ,
+       customer_name
+	   from sport
+	   where customer_name ilike 'an%'
+
+
+Q68. Find orders where delivery days are between 2 and 5
+
+select order_id ,
+       delivery_days 
+	   from sport 
+	   where delivery_days between 2 and 5 
+	   order by delivery_days desc
+
+
+Q69. Find products whose unit price is greater than the average unit price
+
+with x as (select product_name,
+       unit_price 
+	   from sport )
+	select product_name,
+	       unit_price 
+		   from sport 
+		   where unit_price > (select avg(unit_price) from sport )
+	       order by unit_price desc
+
+
+Q70. Find orders whose final amount is greater than the average order amount
+
+with x as(select order_id,
+       sum(final_amount)as amt
+	   from sport
+	   group by order_id)
+	   select order_id, 
+	          amt
+			  from x 
+			  where amt > (select avg(final_amount) from sport)
+			  order by amt desc 
+
+
+Q71. Find customers whose total spending is greater than average customer spending
+
+
+with x as(select customer_id ,
+       customer_name,
+	   sum(final_amount)as amt 
+	   from sport
+	   group by customer_id,customer_name) 
+	select customer_id ,
+	       customer_name,
+		   amt 
+		   from x 
+		   where amt  > (select avg(amt) from x )
+		  order by amt desc  
+
+
+Q72. Find products whose total profit is greater than average product profit
+
+with x as (select product_id ,
+       product_name ,
+	   sum(profit)as profit 
+	   from sport 
+	   group by product_id ,product_name)
+	   select * 
+	          from x 
+			  where profit > (select avg(profit) from x)
+	          order by profit desc 
+
+
+Q73. Find states whose total sales are greater than average state sales
+
+with x as (select state ,
+       sum(sales_amount)as sale
+	   from sport 
+	   group by state )
+	   select * from x 
+	   where sale > (select avg(sale) from x)
+
+
+Q74. Find stores whose total profit is greater than average store profit
+
+
+with x as (select store_id,
+       store_name ,
+	   sum(profit)as profit
+	   from sport 
+	   group by store_id ,store_name)
+	   select * from x 
+	   where profit > (select avg(profit) from x)
+
+
+Q75. Find the customer with the highest total spending
+
+
+select customer_id ,
+       customer_name ,
+	   sum(final_amount)as amt 
+	   from sport 
+	   group by customer_id ,
+       customer_name 
+	   order by amt desc 
+	   limit 1 
+
+
+Q76. Find the second-highest order amount
+
+select customer_name ,
+       sum(final_amount)as amt  
+	   from sport 
+	   group by customer_name
+	   order by sum(final_amount) desc 
+	   limit 1 
+       offset 1
+	   
+Q77. Find products having maximum profit
+
+select product_id ,
+       product_name,
+	   profit
+	   from sport 
+	   where profit = (select max(profit) from sport)
+
+
+Q78. Find the category with the highest total sales
+
+with x as (select product_category ,
+       sum(final_amount)as total_sales 
+	   from sport
+	   group by product_category)
+	   select * from x
+	   where total_sales =(select max(total_sales) from x ) 
+
+
+Q79. Create a CTE to calculate total sales per customer
+
+with x as (select customer_id ,
+       customer_name ,
+	   sum(final_amount)as amt 
+	   from sport 
+	   group by customer_id ,
+       customer_name )
+	   select * from x 
+	   order by  amt desc 
+
+
+Q80. Create a CTE to calculate total profit per product
+
+with x as (select product_id ,
+      product_name ,
+      sum(profit)as amt 
+      from sport 
+	  group by product_id ,
+      product_name)
+	  select * from x 
+	  
+
+Q81. Create a CTE to find the top 5 customers by spending
+
+with x as(select customer_id ,
+       customer_name ,
+	   sum(final_amount)as amt 
+	   from sport 
+	   group by customer_id ,
+       customer_name)
+	   select * from x 
+	   order by amt desc 
+	   limit 5
+
+
+Q82. Create a CTE to calculate monthly sales and find the highest-sales month
+
+with x as (select month ,
+       sum(final_amount)as amt 
+	   from sport 
+	   group by month )
+	   select * from x 
+	   order by amt desc 
+	   limit 1
+
+Q83. Create a CTE to calculate sales and profit margin per category
+
+with x as (select product_category ,
+       sum(profit) as amt ,
+	   sum(sales_amount)as total_sales
+	   from sport 
+	   group by product_category)
+	   select * ,
+	          
+			  round((total_sales/amt)*100,2)as profit_margin
+			  from x 
+			  order by profit_margin desc
+
+
+Q84. Create a CTE to classify customers as Low, Medium, or High value
+
+with x as (select customer_id,
+       customer_name,
+	   sum(final_amount)as amt 
+	   from sport 
+	   group by  customer_id,
+       customer_name)
+	   select customer_id,
+              customer_name,
+	          amt ,
+	          case when amt > 5000 then 'low value'  
+			       when amt between 5000 and 20000 then 'medium' 
+			       when amt > 20000 then 'high'
+			  else 'unknown'
+			  end as category
+			  from x 
+			  order by amt desc   
+	   
+Q86. Join customer and order information to calculate customer-level revenue
+
+with customer as (select customer_id ,
+       customer_name ,
+	    gender ,
+		age 
+		from sport 
+		group by customer_id ,customer_name , gender , age ),
+customer_orders as (select customer_id ,
+                           sum(sales_amount)as sales ,
+						   sum(final_amount)as amt 
+						   from sport 
+						   group by customer_id)
+						   select c.customer_id ,
+						          c.gender,
+								  c.age,
+								  co.sales ,
+								  co.amt 
+								  from customer c
+								  join customer_orders co 
+								  on  c.customer_id=co.customer_id
+								  order by amt desc 
+		
+		
+Q87. Join product and order information to calculate category-level profit
+
+with product as (select product_id ,
+                        product_name,
+	                    product_category
+	                    from sport 
+	                    group by  product_id ,
+                        product_name,
+	                    product_category ),
+	product_order as (select product_id ,
+	                         sum(profit)as amt 
+							 from sport 
+							 group by product_id
+							 )
+
+
+Q88. Find customers who purchased products from more than 3 categories
+
+select customer_id,count(product_category) from sport
+group by customer_id
+having  count(product_category) > 3
+order by 	count(product_category) desc
+
+
+Q91. Rank products by total sales
+
+select product_id,
+      product_name ,
+	  sum(final_amount)as amt ,
+	  rank()over(order by sum(final_amount) desc )
+	  from sport 
+	  group by product_id , product_name
+
+
+Q92. Rank products within each category by profit
+
+select product_id ,
+       product_name,
+	   product_category,
+	   sum(profit)as profit ,
+	   rank()over( partition by product_category order by sum(profit) desc )
+	   from  sport 
+	    group by  product_id ,
+       product_name,
+	   product_category
+
+
+Q93. Rank customers within each state by spending
+
+select customer_id ,
+       customer_name ,
+	   sum(final_amount)as amt ,
+	   state ,
+	   rank()over(partition by state order by sum(final_amount) desc  )as spending_rank
+	   from sport 
+	   group by customer_id ,
+       customer_name, state 
+	   order by state , spending_rank 
+
+
+Q94. Find the top 3 customers from each state
+
+with x as(select customer_id ,
+       customer_name ,
+	   state ,
+	   sum(final_amount)as amt 
+	   from sport 
+	   group by customer_id ,
+       customer_name ,
+	   state)
+	   select * ,
+	          rank()over(partition by state order by amt desc)as ranking 
+			  from x
+			  limit 3
+
+ 
+Q95. Find the top 3 products from each category
+
+with x as (select product_id,
+       product_category ,
+       
+	   sum(final_amount)as amt 
+	   from sport 
+	   group by  product_id,
+       product_category 
+        ),
+	   rank as (select * ,
+	          rank()over(partition by product_category order by amt desc )as ranking 
+			  from x )
+			  select * from rank
+			  where ranking <= 3
+			  order by ranking , product_category 
+
+
+Q96. Find the second-highest revenue product in every category without LIMIT
+
+with x as (select product_id ,
+       product_category ,
+       sum(final_amount)as amt 
+	   from sport 
+	   group by product_id ,
+       product_category),
+	   rank as (
+	         select * ,
+	         dense_rank()over(partition by product_category order by amt desc )as ranking 
+			 from x )
+			 select * from rank 
+			 where ranking = 2
+			 order by product_category 
+
+
+Q97. Find the top salesperson in every store
+
+with x as (select store_id ,
+       store_name ,
+	   salesperson ,
+       sum(final_amount)as amount 
+	   from sport 
+	   group by salesperson ,store_id , store_name ),
+rannk as(  select * ,
+	          rank()over(partition by store_name order by amount desc)as ranking 
+			  from x)
+	          select * from rannk 
+			  where ranking =1
+			  order by amount desc 
+
+
+Q98. Calculate a running total of monthly sales
+
+with x as (select 
+       date_trunc('month',order_date):: date as sales_month ,
+       sum(final_amount)as amount
+	   from sport 
+	   group by date_trunc('month',order_date))
+	   select sales_month ,
+	          amount,
+	          sum(amount)over( order by sales_month)as running 
+			  from x 
+			  order by amount
+
+Q99. Find previous month's sales using LAG()
+
+ with x as(select date_trunc('month',order_date):: date as sales_month ,
+        sum(final_amount)as amount
+		from sport
+		group by date_trunc('month',order_date) ) 
+		select sales_month ,
+		       lag(amount)over(order by sales_month)
+		       
+			   from x 
+
+
+Q100. Calculate month-over-month sales growth
+
+with x as (select date_trunc('month',order_date)::date as sales_month ,
+       sum(sales_amount)as amount
+	   
+	   from sport 
+	   group by date_trunc('month',order_date)),
+previous as(
+	   select sales_month ,
+	          amount ,
+			  lag(amount)over(order by sales_month) as previous_monthly_sales 
+			  from x)
+select * ,
+      round((amount - previous_monthly_sales)/previous_monthly_sales*100,2) as mom_growth
+	  from previous
+	  order by sales_month
+
+
+Q101. Find each customer's first order
+
+with x as(select customer_name ,
+       customer_id,
+       order_id,
+	   order_date,
+	   row_number()over(partition by customer_name order by order_date )as order_number
+	   from sport 
+	   group by customer_name ,
+       customer_id,
+       order_id,
+	   order_date) 
+	   select * from x 
+	   where order_number =1
+
+
+Q102. Find each customer's latest order
+
+with x as(select customer_name ,
+       customer_id,
+       order_id,
+	   order_date,
+	   row_number()over(partition by customer_id order by order_date desc )as order_number
+	   from sport 
+	   group by customer_name ,
+       customer_id,
+       order_id,
+	   order_date) 
+	   select * from x 
+	   where order_number =1
+
+
+Q103. Compare each product's profit with the previous-ranked product
+
+with x as(select product_id,product_name,
+       sum(profit)as amount
+	   from sport 
+	   group by product_id,product_name),
+ranking as (   
+	   select product_id ,
+	          product_name,
+			  amount,
+	          rank()over(order by amount )as profit_rank  ,
+	          lead(amount)over(order by amount )as previou_profit_ranking
+			  from x)
+	 select product_id ,
+	        product_name,
+			amount,
+			profit_rank,
+			previou_profit_ranking
+			from ranking
+
+
+Q104. Calculate each category's percentage contribution to total sales.
+
+with cat_sales as (select 
+	   product_category,
+	   sum(sales_amount)as amount
+	   from sport
+	   group by product_category )
+select product_category,
+       amount,
+       (amount/ nullif(sum(amount)over(),0)*100) as sales
+       from  cat_sales
+       order by sales desc 
+
+
+Q105. Calculate cumulative profit by month
+
+with x as (select date_trunc('month' ,order_date)::date as profit_month ,
+       sum(profit)as profit 
+	   from sport 
+	   group by date_trunc('month' ,order_date) )
+	   select profit_month ,
+	          profit ,
+	          sum(profit)over(order by profit_month) as cumulative
+			  from x 
+			  order by profit
+
+
+Q106. Find customers who purchased in at least 3 different years
+
+       select customer_id ,
+              customer_name ,
+	          count(distinct year)as year  
+			  from sport
+			  group by customer_id ,
+              customer_name 
+			  having count(distinct year) >= 3
+select * from sport
+
+Q107. Find customers who used both Online and Offline channels
+
+select customer_id,
+       customer_name,
+	   count(distinct sales_channel)
+	   from sport
+	   group by customer_id,customer_name,sales_channel
+	   having  count(distict sales_channel) = 2
+
+
+Q108. Find customers with more than 5 orders
+
+select customer_id,
+       count(order_id)
+	   from sport 
+	   group by customer_id
+	   having count(order_id) > 5 
+
+Q109. Find customers with an average rating greater than 4
+
+select customer_id ,
+       customer_name,
+	   avg(customer_rating)
+	   from sport 
+	   group by customer_id ,customer_name
+	   having avg(customer_rating) > 4
+
+
+Q110. Find customers in the top 10% by spending
+
+with x as (select customer_id ,
+       customer_name ,
+	   sum(final_amount)as final_amount 
+	   from sport 
+	   group by customer_id ,customer_name,final_amount),
+  ranking as (    select * ,
+	         ntile(10)over(order by final_amount desc )as top_10
+			 from x)
+		select customer_id ,
+		       customer_name,
+			   final_amount
+			   
+			   from ranking 
+			   where top_10=1
+			   order by final_amount desc 
+
+
+Q111. Find customers who returned more than 20% of their orders
+
+with x as (select customer_id,
+       customer_name,
+	   count(order_id)as total_orders ,
+	   count(case when return_status ='Returned' then order_id end)as returned
+	   from sport 
+	   group by customer_id,
+       customer_name)
+ (select  customer_id,
+	       customer_name,
+	       total_orders,
+		   returned,
+		   round((returned::numeric/nullif(total_orders,0))*100,2) as return_rate
+		   from x 
+		   where returned::numeric/nullif(total_orders,0) > 0.20
+		   order by return_rate desc 
